@@ -1,5 +1,6 @@
 import random
 import json
+import sys
 
 DATA = "user_data.json"
 
@@ -122,7 +123,7 @@ class Account:
 
         return f"Your balance is: {balance}"
 
-    def update_pin(self):
+    def update_pin(self) -> str:
         user = self.confirm_user()
         data = user[0]
         account = user[1]
@@ -140,3 +141,21 @@ class Account:
             json.dump(data, file, indent=4)
 
         return "PIN updated successfully"
+
+    def close(self) -> str:
+        user = self.confirm_user()
+        data = user[0]
+        account = user[1]
+
+        confirm = input(
+            f"Are you sure you want to close the account? This action is irreversible!! (0 = no, 1 = yes):\n> ")
+
+        if confirm == "0":
+            sys.exit()
+        elif confirm == "1":
+            del data[account]
+
+            with open(DATA, "w") as file:
+                json.dump(data, file, indent=4)
+
+        return "Account closed successfully"

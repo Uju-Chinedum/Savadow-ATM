@@ -15,5 +15,6 @@ selection = """
     ==      4. Transfer             ==
     ==      5. Check Balance        ==
     ==      6. Change PIN           ==
+    ==      7. Close Account        ==
     ==================================
 """
