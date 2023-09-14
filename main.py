@@ -1,27 +1,30 @@
 import design
-import sys
-from account import Account, DATA
+from account import Account
 
 print(design.welcome)
 
-make_transaction = input("Do you want to access the account interface (0 = no, 1 = yes)?:\n> ")
+make_transaction = input(
+    "Do you want to access the account interface (0 = no, 1 = yes)?:\n> ")
 
 while make_transaction == "1":
     print(design.selection)
 
-    user = Account()
+    account = Account()
 
     prompt = input("> ")
 
     if prompt == "1":
-        print(user.create_account())
+        print(account.create_account())
     elif prompt == "2":
-        print(user.withdraw())
+        print(account.withdraw())
     elif prompt == "3":
-        print(user.add())
+        print(account.add())
     elif prompt == "4":
-        print(user.transfer())
-        
-    make_transaction = input("Do you want to perform another operation (0 = no, 1 = yes)?:\n> ")
-        
+        print(account.transfer())
+    elif prompt == "5":
+        print(account.check_balance())
+
+    make_transaction = input(
+        "\nDo you want to perform another operation (0 = no, 1 = yes)?:\n> ")
+
 print("Thanks for banking with us")

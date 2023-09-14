@@ -54,11 +54,11 @@ class Account:
 
                 if data[account]["pin"] != pin:
                     return "Incorrect PIN"
-            
+
             return data, account, data[account]["balance"]
         except KeyError:
             return "No Account Found"
-    
+
     def withdraw(self) -> str:
         user = self.confirm_user()
         data = user[0]
@@ -74,7 +74,7 @@ class Account:
             return "Transaction Successful"
         else:
             print("Insufficient funds")
-    
+
     def add(self):
         user = self.confirm_user()
         data = user[0]
@@ -86,16 +86,18 @@ class Account:
             json.dump(data, file, indent=4)
 
         return "Balance Updated\n"
-    
+
     def transfer(self) -> str:
         user = self.confirm_user()
         data = user[0]
         account = user[1]
         balance = user[2]
-        recipient = input("Enter the account number of the person you want to send to: \n> ")
-        
+        recipient = input(
+            "Enter the account number of the person you want to send to: \n> ")
+
         try:
-            check = input(f"Is that the person's name {data[recipient]['name']} (0 = no, 1 = yes):\n> ")
+            check = input(
+                f"Is that the person's name {data[recipient]['name']} (0 = no, 1 = yes):\n> ")
             if check == "0":
                 return "Please check the account number and try again."
             elif check == "1":
@@ -113,3 +115,9 @@ class Account:
                     return "Insufficient Funds"
         except KeyError:
             return "No Account Found. Please check the account number."
+
+    def check_balance(self) -> str:
+        user = self.confirm_user()
+        balance = user[2]
+        
+        return f"Your balance is: {balance}"
