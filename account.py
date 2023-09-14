@@ -23,7 +23,7 @@ class Account:
         }
 
         if len(pin) != 4:
-            return ValueError("PIN not allowed")
+            return "PIN not allowed"
         elif pin != confirm_pin:
             return "PIN does not match"
 
@@ -119,5 +119,24 @@ class Account:
     def check_balance(self) -> str:
         user = self.confirm_user()
         balance = user[2]
-        
+
         return f"Your balance is: {balance}"
+
+    def update_pin(self):
+        user = self.confirm_user()
+        data = user[0]
+        account = user[1]
+
+        new_pin = input("Please enter a 4-digit pin:\n> ")
+        new_pin_confirm = input("Please confirm your pin:\n> ")
+
+        if len(new_pin) != 4:
+            return "PIN not allowed"
+        elif new_pin != new_pin_confirm:
+            return "PIN does not match"
+
+        data[account]["pin"] = new_pin
+        with open(DATA, "w") as file:
+            json.dump(data, file, indent=4)
+
+        return "PIN updated successfully"

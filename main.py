@@ -23,6 +23,8 @@ while make_transaction == "1":
         print(account.transfer())
     elif prompt == "5":
         print(account.check_balance())
+    elif prompt == "6":
+        print(account.update_pin())
 
     make_transaction = input(
         "\nDo you want to perform another operation (0 = no, 1 = yes)?:\n> ")
