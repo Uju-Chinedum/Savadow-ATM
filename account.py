@@ -1,6 +1,5 @@
 import random
 import json
-import sys
 
 DATA = "user_data.json"
 
@@ -48,17 +47,17 @@ class Account:
     def confirm_user(self) -> tuple:
         account = input("Enter account number:\n> ")
         pin = input("Enter your pin:\n> ")
-        
+
         try:
             with open(DATA, "r+") as file:
                 data = json.load(file)
-                
+
                 if data[account]["pin"] != pin:
-                    sys.exit("Incorrect PIN")
+                    return "Incorrect PIN"
             
             return data, account, data[account]["balance"]
         except KeyError:
-            sys.exit("No Account Found")
+            return "No Account Found"
     
     def withdraw(self) -> str:
         user = self.confirm_user()
@@ -73,7 +72,7 @@ class Account:
                 json.dump(data, file, indent=4)
 
             return "Transaction Successful"
-        elif balance < amount:
+        else:
             print("Insufficient funds")
     
     def add(self):
@@ -81,7 +80,7 @@ class Account:
         data = user[0]
         account = user[1]
         amount = float(input("How much do you want to add:\n> "))
-        
+
         data[account]["balance"] += amount
         with open(DATA, "w") as file:
             json.dump(data, file, indent=4)
@@ -92,22 +91,25 @@ class Account:
         user = self.confirm_user()
         data = user[0]
         account = user[1]
-        
-        recipient = input("Enter the account number of the person you want to send to: \n>")
+        balance = user[2]
+        recipient = input("Enter the account number of the person you want to send to: \n> ")
         
         try:
-            check = input(f"Is that the person's name: {data[recipient]['name']} (0 = no, 1 = yes):\n> ")
+            check = input(f"Is that the person's name {data[recipient]['name']} (0 = no, 1 = yes):\n> ")
             if check == "0":
-                sys.exit("Please check the account number and try again.")
+                return "Please check the account number and try again."
             elif check == "1":
-                funds = float("How much do you want to transfer:\n> ")
-                
-                data[recipient]["balance"] += funds
-                data[account]["balance"] -= funds
-                
-                with open(DATA, "w") as file:
-                    json.dump(data, file, indent=4)
-                    
-            return "Funds transferred successfully"
+                funds = float(input("How much do you want to transfer:\n> "))
+
+                if balance >= funds:
+                    data[recipient]["balance"] += funds
+                    data[account]["balance"] -= funds
+
+                    with open(DATA, "w") as file:
+                        json.dump(data, file, indent=4)
+
+                    return "Funds transferred successfully"
+                else:
+                    return "Insufficient Funds"
         except KeyError:
-            sys.exit("No Account Found. Please check the account number.")
+            return "No Account Found. Please check the account number."
