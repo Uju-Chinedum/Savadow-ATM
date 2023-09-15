@@ -50,7 +50,7 @@ class Account:
         pin = input("Enter your pin:\n> ")
 
         try:
-            with open(DATA, "r+") as file:
+            with open(DATA, "r") as file:
                 data = json.load(file)
 
                 if data[account]["pin"] != pin:
@@ -114,6 +114,8 @@ class Account:
                     return "Funds transferred successfully"
                 else:
                     return "Insufficient Funds"
+            else:
+                return "Invalid Selection"
         except KeyError:
             return "No Account Found. Please check the account number."
 
@@ -157,5 +159,7 @@ class Account:
 
             with open(DATA, "w") as file:
                 json.dump(data, file, indent=4)
+        else:
+            return "Invalid Selection"
 
         return "Account closed successfully"

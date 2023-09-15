@@ -29,6 +29,8 @@ def main():
             print(account.update_pin())
         elif prompt == "7":
             print(account.close())
+        else:
+            return "Invalid Selection"
 
         make_transaction = input(
             "\nDo you want to perform another operation (0 = no, 1 = yes)?:\n> ")
