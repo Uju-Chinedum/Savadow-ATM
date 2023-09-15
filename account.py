@@ -24,9 +24,9 @@ class Account:
         }
 
         if len(pin) != 4:
-            return "PIN not allowed"
+            sys.exit("PIN not allowed")
         elif pin != confirm_pin:
-            return "PIN does not match"
+            sys.exit("PIN does not match")
 
         try:
             with open(DATA, "r") as file:
@@ -54,11 +54,11 @@ class Account:
                 data = json.load(file)
 
                 if data[account]["pin"] != pin:
-                    return "Incorrect PIN"
+                    sys.exit("Incorrect PIN")
 
             return data, account, data[account]["balance"]
         except KeyError:
-            return "No Account Found"
+            sys.exit("No Account Found")
 
     def withdraw(self) -> str:
         user = self.confirm_user()
@@ -100,7 +100,7 @@ class Account:
             check = input(
                 f"Is that the person's name {data[recipient]['name']} (0 = no, 1 = yes):\n> ")
             if check == "0":
-                return "Please check the account number and try again."
+                sys.exit("Please check the account number and try again.")
             elif check == "1":
                 funds = float(input("How much do you want to transfer:\n> "))
 
@@ -113,11 +113,11 @@ class Account:
 
                     return "Funds transferred successfully"
                 else:
-                    return "Insufficient Funds"
+                    sys.exit("Insufficient Funds")
             else:
-                return "Invalid Selection"
+                sys.exit("Invalid Selection")
         except KeyError:
-            return "No Account Found. Please check the account number."
+            sys.exit("No Account Found. Please check the account number.")
 
     def check_balance(self) -> str:
         user = self.confirm_user()
